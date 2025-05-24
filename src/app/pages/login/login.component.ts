@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router'; // Adicione RouterModule
+import { Router, RouterModule } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../../core/services/auth.service';
+import { finalize } from 'rxjs'; // Importe o finalize
 
 @Component({
   selector: 'app-login',
@@ -16,22 +17,23 @@ import { AuthService } from '../../core/services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule, // Adicione isto
+    RouterModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule
-  ],
+    ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent {
   loginForm: FormGroup;
   showPassword = false;
   isLoading = false;
-  errorMessage = ''; // Adicione esta declaração
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -44,22 +46,27 @@ export class LoginComponent {
     });
   }
 
-  onSubmit(): void {
-    if (this.loginForm.invalid) return;
+onSubmit(): void {
+  if (this.loginForm.invalid) return;
 
-    this.isLoading = true;
-    this.errorMessage = '';
+  this.isLoading = true;
+  this.errorMessage = '';
 
-    setTimeout(() => {
-      const { email, password } = this.loginForm.value;
-      
-      if (this.authService.login(email, password)) {
-        this.router.navigate(['/admin']);
-      } else {
-        this.errorMessage = 'Credenciais inválidas. Use admin@exemplo.com / admin123';
+  const { email, password } = this.loginForm.value;
+  
+  this.authService.login(email, password)
+    .pipe(
+      finalize(() => this.isLoading = false)
+    )
+      .subscribe({
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Erro ao conectar com o servidor';
+        console.error('Login error:', err);
       }
-      
-      this.isLoading = false;
-    }, 800);
+    });
+}
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

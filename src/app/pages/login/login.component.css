@@ -64,6 +64,23 @@ mat-form-field {
   color: #666;
 }
 
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #f44336;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.invalid {
+  border-color: #f44336 !important;
+}
+
+.login-button mat-spinner {
+  margin: 0 auto;
+}
+
 /* Responsividade */
 @media (max-width: 600px) {
   .login-container {

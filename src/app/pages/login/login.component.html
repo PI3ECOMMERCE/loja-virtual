@@ -8,7 +8,12 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" placeholder="exemplo@email.com">
+          <input 
+            matInput 
+            formControlName="email" 
+            placeholder="exemplo@email.com"
+            [class.invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          >
           <mat-icon matSuffix>email</mat-icon>
           <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
             Email é obrigatório
@@ -24,12 +29,13 @@
             matInput 
             [type]="showPassword ? 'text' : 'password'" 
             formControlName="password"
+            [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
           >
           <button 
             type="button" 
             mat-icon-button 
             matSuffix
-            (click)="showPassword = !showPassword"
+            (click)="togglePasswordVisibility()"
             [attr.aria-label]="'Mostrar senha'"
           >
             <mat-icon>{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -42,6 +48,11 @@
           </mat-error>
         </mat-form-field>
 
+        <div *ngIf="errorMessage" class="error-message">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{errorMessage}}</span>
+        </div>
+
         <div class="remember-forgot">
           <mat-checkbox formControlName="rememberMe">Lembrar de mim</mat-checkbox>
           <a routerLink="/recuperar-senha" class="forgot-password">Esqueceu a senha?</a>
@@ -51,11 +62,11 @@
           mat-raised-button 
           color="primary" 
           type="submit"
-          [disabled]="!loginForm.valid || isLoading"
+          [disabled]="loginForm.invalid || isLoading"
           class="login-button"
         >
           <span *ngIf="!isLoading">Entrar</span>
-          <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
+          <mat-spinner *ngIf="isLoading" diameter="24" color="accent"></mat-spinner>
         </button>
       </form>
     </mat-card-content>

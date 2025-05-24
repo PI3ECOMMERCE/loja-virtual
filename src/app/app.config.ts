@@ -5,6 +5,7 @@ import { provideZoneChangeDetection } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from '../../env/environment';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideFirestore(() => getFirestore()),
     // Adicione outros módulos Firebase conforme necessário
     // provideAuth(() => getAuth()),
-    // provideStorage(() => getStorage())
+    // provideStorage(() => getStorage()),
+    provideHttpClient()
   ]
 };
