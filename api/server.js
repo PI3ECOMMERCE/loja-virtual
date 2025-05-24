@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 
 // Configuração do Firebase (incluindo Auth)
-const serviceAccount = require('service-account-key.json');
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 // Inicializa o Firebase Admin SDK
 admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 const auth = admin.auth(); // Firebase Auth
