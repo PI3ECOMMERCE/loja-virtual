@@ -43,4 +43,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-environments/
+env/
+# Firebase service account key
+api/service-account-key.json
