@@ -1,10 +1,8 @@
 const express = require('express');
 const admin = require('firebase-admin');
 const cors = require('cors');
-const fetch = require('node-fetch'); // Adicionado para garantir compatibilidade
 const app = express();
-const { getFirebaseAuthToken } = require('./firebase-auth');
-
+const { getFirebaseAuthToken } = require('./firebase-auth'); // Importação correta
 
 require('dotenv').config();
 
@@ -27,34 +25,12 @@ app.use(cors({
   credentials: true
 }));
 
-// Função auxiliar para obter token
-async function getFirebaseIdToken(email, password) {
-  const firebaseRestURL = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${serviceAccount.apiKey}`;
-  
-  const response = await fetch(firebaseRestURL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email,
-      password,
-      returnSecureToken: true
-    })
-  });
-  
-  if (!response.ok) {
-    throw new Error('Falha ao obter token');
-  }
-  
-  const data = await response.json();
-  return data.idToken;
-}
-
 // Helper para mensagens de erro
 function getFirebaseError(message) {
   const errors = {
-    'email-already-in-use': 'Email já está em uso',
-    'weak-password': 'Senha deve ter pelo menos 6 caracteres',
-    'invalid-email': 'Email inválido'
+    'auth/email-already-in-use': 'Email já está em uso',
+    'auth/weak-password': 'Senha deve ter pelo menos 6 caracteres',
+    'auth/invalid-email': 'Email inválido'
   };
   return errors[message] || 'Erro no registro';
 }
@@ -74,7 +50,11 @@ app.get('/api', (req, res) => {
 app.post('/api/login', async (req, res) => {
   try {
     const user = await admin.auth().getUserByEmail(req.body.email);
-    const token = await getFirebaseIdToken(req.body.email, req.body.password);
+    const token = await getFirebaseAuthToken(
+      req.body.email, 
+      req.body.password,
+      serviceAccount.apiKey
+    );
     
     res.json({ 
       success: true, 
@@ -89,13 +69,11 @@ app.post('/api/login', async (req, res) => {
     console.error('Login error:', error);
     res.status(401).json({ 
       success: false, 
-      message: getFirebaseError(error.message),
+      message: getFirebaseError(error.code),
       error: error.message 
     });
   }
 });
-
-
 
 app.post('/api/register', async (req, res) => {
   const { email, password, name } = req.body;
@@ -123,37 +101,37 @@ app.post('/api/register', async (req, res) => {
       createdAt: Date.now()
     });
 
-    // 3. Gerar token (usando a função do módulo)
-    const firebaseToken = await getFirebaseAuthToken(
-      email, 
-      password,
-      serviceAccount.apiKey // Passando apenas a API key
-    );
-
-    res.json({
-      success: true,
-      uid: user.uid,
-      idToken: firebaseToken,
-      message: 'Registro concluído com sucesso!'
-    });
+    // 3. Tentar gerar token (se falhar, ainda retorna sucesso)
+    try {
+      const token = await getFirebaseAuthToken(
+        email, 
+        password,
+        serviceAccount.apiKey
+      );
+      return res.json({
+        success: true,
+        uid: user.uid,
+        idToken: token,
+        message: 'Registro e login automático concluídos!'
+      });
+    } catch (tokenError) {
+      console.error('Erro ao gerar token:', tokenError);
+      return res.json({
+        success: true,
+        uid: user.uid,
+        message: 'Usuário criado. Faça login manualmente.'
+      });
+    }
 
   } catch (error) {
     console.error('Registration error:', error);
-    
-    const errorMessage = error.code === 'auth/email-already-in-use' 
-      ? 'Este email já está em uso' 
-      : 'Erro durante o registro';
-    
     res.status(400).json({
       success: false,
-      message: errorMessage,
+      message: getFirebaseError(error.code),
       error: error.message
     });
   }
 });
-
-
-
 
 app.get('/api/protected', async (req, res) => {
   const authHeader = req.headers.authorization;
