@@ -7,7 +7,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private apiUrl = 'https://vitrine-68en.onrender.com';
+  private apiUrl = 'https://vitrine-68en.onrender.com/api'; // URL da API
 
   
   private authStatus = new BehaviorSubject<boolean>(this.checkInitialAuthState());
@@ -19,24 +19,25 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  login(email: string, password: string) {
-    return this.http.post<{ token: string }>('https://vitrine-68en.onrender.com/', { 
-      email, 
-      password 
-    }).pipe(
-      tap({
-        next: (response) => {
-          localStorage.setItem('token', response.token);
-          this.authStatus.next(true);
-          this.router.navigate(['/admin']);
-        },
-        error: (err) => {
-          console.error('Login failed:', err);
-          alert('Login falhou!');
-        }
-      })
-    );
-  }
+  // Corrija o método login para usar a URL correta
+login(email: string, password: string) {
+  return this.http.post<{ idToken: string }>(`${this.apiUrl}/login`, { 
+    email, 
+    password 
+  }).pipe(
+    tap({
+      next: (response) => {
+        localStorage.setItem('token', response.idToken); // Note a mudança para idToken
+        this.authStatus.next(true);
+        this.router.navigate(['/admin']);
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+        alert(err.error?.message || 'Login falhou!'); // Mensagem mais descritiva
+      }
+    })
+  );
+}
 
   logout() {
     localStorage.removeItem('token');
