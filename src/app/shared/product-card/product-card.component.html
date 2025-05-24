@@ -1,0 +1,29 @@
+<!-- product-card.component.html -->
+<div class="product-card">
+  <div class="image-container">
+    <img 
+      [src]="product.image || 'https://placehold.co/300x300'"
+      [alt]="product.name"
+      (error)="handleImageError($event)"
+      class="product-image"
+      loading="lazy"
+    >
+  </div>
+  
+  <div class="product-info">
+    <h3>{{ product.name }}</h3>
+    <p class="description">{{ product.description | truncate:100 }}</p>
+    
+    <div class="product-footer">
+      <p class="price">{{ product.price | currency:'BRL' }}</p>
+      <a 
+        [href]="product.link || '#'" 
+        class="buy-button"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Comprar
+      </a>
+    </div>
+  </div>
+</div>
