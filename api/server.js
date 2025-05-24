@@ -3,6 +3,8 @@ const admin = require('firebase-admin');
 const cors = require('cors');
 const fetch = require('node-fetch'); // Adicionado para garantir compatibilidade
 const app = express();
+const { getFirebaseAuthToken } = require('./firebase-auth');
+
 
 require('dotenv').config();
 
@@ -93,10 +95,13 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
+
+
 app.post('/api/register', async (req, res) => {
   const { email, password, name } = req.body;
 
   try {
+    // Validação
     if (!email || !password || !name) {
       return res.status(400).json({ 
         success: false,
@@ -111,37 +116,45 @@ app.post('/api/register', async (req, res) => {
       displayName: name
     });
 
-    // 2. Salvar dados adicionais
+    // 2. Salvar no Realtime Database
     await admin.database().ref('users/' + user.uid).set({
       name,
       email,
       createdAt: Date.now()
     });
 
-    // 3. Gerar token
-    const firebaseToken = await getFirebaseIdToken(email, password);
+    // 3. Gerar token (usando a função do módulo)
+    const firebaseToken = await getFirebaseAuthToken(
+      email, 
+      password,
+      serviceAccount.apiKey // Passando apenas a API key
+    );
 
     res.json({
       success: true,
       uid: user.uid,
       idToken: firebaseToken,
-      user: {
-        email: user.email,
-        displayName: user.displayName
-      }
+      message: 'Registro concluído com sucesso!'
     });
 
   } catch (error) {
     console.error('Registration error:', error);
+    
+    const errorMessage = error.code === 'auth/email-already-in-use' 
+      ? 'Este email já está em uso' 
+      : 'Erro durante o registro';
+    
     res.status(400).json({
       success: false,
-      message: getFirebaseError(error.message),
+      message: errorMessage,
       error: error.message
     });
   }
 });
 
-// Rota protegida de exemplo
+
+
+
 app.get('/api/protected', async (req, res) => {
   const authHeader = req.headers.authorization;
   
