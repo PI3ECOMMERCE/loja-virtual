@@ -2,7 +2,7 @@ const express = require('express');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const app = express();
-const { getFirebaseAuthToken } = require('./firebase-auth'); // Importação correta
+const { getFirebaseAuthToken } = require('./firebase-auth');=
 
 require('dotenv').config();
 
