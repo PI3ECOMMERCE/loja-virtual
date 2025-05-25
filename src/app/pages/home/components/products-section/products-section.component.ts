@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router'; // Adicione esta linha
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -37,7 +37,6 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
     </a>
   </div>
 
-  <!-- Modal movido para fora do ngFor -->
   <div class="external-link-modal" *ngIf="showModal">
     <div class="modal-content">
       <h3>Você está saindo do site</h3>
@@ -55,15 +54,12 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
       padding: 2rem;
       background: #f9f9f9;
     }
-
     .products-section h2 {
       text-align: center;
       margin-bottom: 1.5rem;
       font-size: 2rem;
       color: #333;
     }
-
-
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -82,12 +78,12 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
     }
-  }
-    .product-image {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+  .product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
     }
     .product-info {
       padding: 1rem;
@@ -130,7 +126,6 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
   transform: translate(2px, -2px);
 }
 
-  /* Adicione ao seu bloco de estilos existente */
 
 .more-products-container {
   text-align: center;
@@ -170,9 +165,6 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
 }
 
 
-
-
-/* Adicione ao seu CSS existente */
 .external-link-modal {
   position: fixed;
   top: 0;
@@ -234,10 +226,10 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
 
 .cancel-button:hover {
   background: #e0e0e0;
-}
-
+  }
 `]
-})
+});
+  
 export class ProductsSectionComponent {
   produtos = [
     {
@@ -256,18 +248,17 @@ export class ProductsSectionComponent {
 
   showModal = false;
   externalLink = '';
-  externalUrl = ''; // Adicione esta nova propriedade
+  externalUrl = '';
 
-  // Mantenha apenas UMA implementação deste método
   openExternalLink(link: string, event?: MouseEvent) {
     if (event) event.preventDefault();
     this.externalLink = this.getDomainName(link);
-    this.externalUrl = link; // Guarda a URL completa para redirecionamento
+    this.externalUrl = link;
     this.showModal = true;
   }
 
   confirmRedirect() {
-    window.open(this.externalUrl, '_blank'); // Use a URL completa aqui
+    window.open(this.externalUrl, '_blank');
     this.showModal = false;
   }
 
