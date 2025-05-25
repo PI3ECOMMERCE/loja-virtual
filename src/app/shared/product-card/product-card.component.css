@@ -1,4 +1,3 @@
-/* Estrutura principal do card */
 .product-card {
   display: flex;
   flex-direction: column;
@@ -11,7 +10,6 @@
   height: 100%;
 }
 
-/* Container da imagem */
 .image-container {
   width: 100%;
   aspect-ratio: 1/1;
@@ -39,7 +37,6 @@
   transform: scale(1.05);
 }
 
-/* Seção de informações */
 .product-info {
   padding: 1.2rem;
   display: flex;
@@ -63,7 +60,6 @@
   margin: 0;
 }
 
-/* Rodapé (preço + botão) */
 .product-footer {
   display: flex;
   justify-content: space-between;

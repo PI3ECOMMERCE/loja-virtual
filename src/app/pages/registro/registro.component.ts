@@ -169,7 +169,6 @@ styles: [`
     text-decoration: none;
   }
 
-  /* Estilo para ícone de visibilidade de senha */
   button[mat-icon-button] {
     margin-right: -8px;
   }

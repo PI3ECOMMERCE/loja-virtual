@@ -64,7 +64,6 @@ import { AuthService } from '../../core/services/auth.service';
     </nav>
   `,
   styles: [`
-  /* NAVBAR COMPACTA E OTIMIZADA */
   nav, .navbar {
     background: white;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -77,7 +76,6 @@ import { AuthService } from '../../core/services/auth.service';
     z-index: 1000;
   }
 
-  /* ESTILOS DE LINKS */
   a, .nav-link {
     color: #555;
     text-decoration: none;
@@ -87,7 +85,7 @@ import { AuthService } from '../../core/services/auth.service';
     gap: 0.5rem;
     transition: all 0.3s ease;
     padding: 0.5rem 0;
-    position: relative; /* Adicionado para o pseudo-elemento */
+    position: relative;
   }
 
   a:hover, .nav-link:hover {
@@ -95,7 +93,6 @@ import { AuthService } from '../../core/services/auth.service';
     transform: translateY(-2px);
   }
 
-  /* LOGO */
   .logo {
     font-weight: bold;
     font-size: 1rem;
@@ -117,14 +114,12 @@ import { AuthService } from '../../core/services/auth.service';
     transform: scale(1.05);
   }
 
-  /* CONTAINER DE LINKS */
   .nav-links {
     display: flex;
     gap: 1.5rem;
     align-items: center;
   }
 
-  /* LINKS ATIVOS - ESTILO ATUALIZADO */
   .nav-link.active-link {
     color: #3f51b5;
     font-weight: 500;
@@ -152,7 +147,6 @@ import { AuthService } from '../../core/services/auth.service';
     color: inherit;
   }
 
-  /* ESTILOS ESPECÍFICOS PARA ADMIN */
   .admin {
     color: #673ab7;
     background: rgba(103, 58, 183, 0.1);
@@ -165,7 +159,6 @@ import { AuthService } from '../../core/services/auth.service';
     background: rgba(103, 58, 183, 0.15);
   }
 
-  /* ESTILOS ESPECÍFICOS PARA LOGOUT */
   .logout {
     color: #ff3d00;
     background: rgba(255, 61, 0, 0.1);
@@ -179,7 +172,7 @@ import { AuthService } from '../../core/services/auth.service';
     background: rgba(255, 61, 0, 0.15);
   }
 
-  /* RESPONSIVIDADE */
+  /* Responsividade */
   @media (max-width: 768px) {
     .navbar {
       padding: 0.5rem 1rem;

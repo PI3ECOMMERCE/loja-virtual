@@ -6,8 +6,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <section class="testimonials-section">
-<section class="testimonials-section">
-      <!-- Seção de Valores - Estilo Atualizado -->
+    <section class="testimonials-section">
       <div class="values-section">
         <h2 class="section-title">Nossos Valores</h2>
         <div class="values-grid">
@@ -21,9 +20,9 @@ import { CommonModule } from '@angular/common';
         </div>
       </div>
 
-      <!-- Seção de Depoimentos -->
-<section class="testimonial-carousel">
-  <h2>O que nossos clientes dizem</h2>
+
+  <section class="testimonial-carousel">
+    <h2>O que nossos clientes dizem</h2>
   
   <div class="carousel-wrapper">
     <button class="carousel-btn" (click)="prevTestimonial()" aria-label="Depoimento anterior">‹</button>
