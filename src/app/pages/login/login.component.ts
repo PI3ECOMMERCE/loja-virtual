@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../../core/services/auth.service';
-import { finalize } from 'rxjs'; // Importe o finalize
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
