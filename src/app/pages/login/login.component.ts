@@ -56,7 +56,7 @@ export class LoginComponent {
 
     const { email, password } = this.loginForm.value;
     
-    console.log('Tentando login com:', { email }); // Debug (não logue a senha)
+    console.log('Tentando login com:', { email });
     
     this.authService.login(email, password)
       .pipe(
