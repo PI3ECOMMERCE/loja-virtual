@@ -62,7 +62,6 @@ import { RouterModule } from '@angular/router';
       position: relative;
       display: inline-block;
     }
-<<<<<<< HEAD
 
         .products-section h2::after {
       content: '';
@@ -75,8 +74,6 @@ import { RouterModule } from '@angular/router';
       background: #3f51b5;
     }
 
-=======
->>>>>>> 79392ee8ff1f58ded8cf272664447409a26d00c4
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -245,8 +242,7 @@ import { RouterModule } from '@angular/router';
   background: #e0e0e0;
   }
 `]
-});
-  
+})
 export class ProductsSectionComponent {
   produtos = [
     {

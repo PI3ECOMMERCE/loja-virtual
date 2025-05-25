@@ -94,7 +94,6 @@ export class LoginComponent {
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-<<<<<<< HEAD
 
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
@@ -106,6 +105,4 @@ export class LoginComponent {
     });
   }
 } 
-=======
-}
->>>>>>> 79392ee8ff1f58ded8cf272664447409a26d00c4
+

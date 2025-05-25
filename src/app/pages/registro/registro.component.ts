@@ -75,13 +75,8 @@ import { finalize } from 'rxjs';
           <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
             Confirmação é obrigatória
           </mat-error>
-<<<<<<< HEAD
             <mat-error *ngIf="registerForm.errors?.['notSame']">
                 As senhas não coincidem
-=======
-          <mat-error *ngIf="registerForm.errors?.['notSame']">
-              As senhas não coincidem
->>>>>>> 79392ee8ff1f58ded8cf272664447409a26d00c4
           </mat-error>
         </mat-form-field>
 

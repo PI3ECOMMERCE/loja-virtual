@@ -46,3 +46,10 @@ Thumbs.db
 env/
 # Firebase service account key
 api/service-account-key.json
+
+# Arquivos de ambiente
+.env
+.env.local
+.env*.local
+vitrine-virtual/.env
+C:\Users\elois\Downloads\vitrine-virtual\.env

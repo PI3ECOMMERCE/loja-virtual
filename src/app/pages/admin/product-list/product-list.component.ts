@@ -99,8 +99,7 @@ import { MatTableDataSource } from '@angular/material/table';
       font-size: 20px;
     }
   `]
-});
-
+})
 export class ProductListComponent {
   displayedColumns = ['name', 'price', 'actions'];
   dataSource = new MatTableDataSource<Product>([]);

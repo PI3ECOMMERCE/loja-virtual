@@ -2,12 +2,7 @@ const express = require('express');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const app = express();
-<<<<<<< HEAD
 const { getFirebaseAuthToken } = require('./firebase-auth');
-const { environment } = require('../env/environment');
-=======
-const { getFirebaseAuthToken } = require('./firebase-auth');=
->>>>>>> 79392ee8ff1f58ded8cf272664447409a26d00c4
 
 require('dotenv').config();
 
@@ -22,7 +17,7 @@ admin.initializeApp({
 });
 
 // Obter a chave pública do Firebase do environment
-const firebaseApiKey = environment.firebase.apiKey;
+const firebaseApiKey = process.env.FIREBASE_API_KEY;
 console.log('Firebase API Key:', firebaseApiKey); // Debug
 
 // Middlewares
