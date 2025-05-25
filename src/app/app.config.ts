@@ -14,7 +14,6 @@ export const appConfig: ApplicationConfig = {
     // Configuração do Firebase
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
-    // Adicione outros módulos Firebase conforme necessário
     // provideAuth(() => getAuth()),
     // provideStorage(() => getStorage()),
     provideHttpClient()

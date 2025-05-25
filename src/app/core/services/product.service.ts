@@ -1,4 +1,3 @@
-// product.service.ts
 import { Injectable } from '@angular/core';
 import { 
   Firestore, 
@@ -47,6 +46,7 @@ export class ProductService {
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()  
     });
+    
     // O BehaviorSubject será atualizado automaticamente pelo subscription acima
   }
 
@@ -56,12 +56,12 @@ export class ProductService {
       ...product,
       updatedAt: serverTimestamp()
     });
-    // O BehaviorSubject será atualizado automaticamente pelo subscription acima
+    
   }
 
   async deleteProduct(id: string) {
     const productRef = doc(this.firestore, `products/${id}`);
     await deleteDoc(productRef);
-    // O BehaviorSubject será atualizado automaticamente pelo subscription acima
+   
   }
 }

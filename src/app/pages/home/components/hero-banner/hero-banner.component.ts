@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'app-hero-banner', // Deve bater com a tag usada
+  selector: 'app-hero-banner',
   template: `
     <section class="hero" style="background:#5e6d48; padding: 1.3rem; text-align: center; color: #fff;">
             <h1>{{ titulo }}</h1>

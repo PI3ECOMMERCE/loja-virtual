@@ -1,17 +1,17 @@
-/* Estrutura principal do card - MANTIDO */
+/* Estrutura principal do card */
 .product-card {
   display: flex;
   flex-direction: column;
   border: 1px solid #e0e0e0;
-  border-radius: 12px; /* Aumentado para combinar com a home */
+  border-radius: 12px;
   overflow: hidden;
   background: white;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05); /* Sombra mais suave */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   height: 100%;
 }
 
-/* Container da imagem - MANTIDO COM MELHORIAS */
+/* Container da imagem */
 .image-container {
   width: 100%;
   aspect-ratio: 1/1;
@@ -22,32 +22,29 @@
   justify-content: center;
 }
 
-/* Imagem - MANTIDO */
 .product-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Alterado de 'contain' para combinar com a home */
+  object-fit: cover;
   transition: transform 0.5s ease;
 }
 
-/* Efeito hover - ATUALIZADO */
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Sombra mais pronunciada */
-  border-color: #d0d0d0; /* Borda mais visível no hover */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  border-color: #d0d0d0;
 }
 
 .product-card:hover .product-image {
   transform: scale(1.05);
-  /* Removido o rotate para ficar mais clean */
 }
 
-/* Seção de informações - MANTIDO COM AJUSTES */
+/* Seção de informações */
 .product-info {
   padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem; /* Novo - espaçamento uniforme */
+  gap: 0.8rem;
   flex-grow: 1;
 }
 
@@ -66,7 +63,7 @@
   margin: 0;
 }
 
-/* Rodapé (preço + botão) - ATUALIZADO */
+/* Rodapé (preço + botão) */
 .product-footer {
   display: flex;
   justify-content: space-between;
@@ -76,30 +73,28 @@
   gap: 1rem;
 }
 
-/* Preço - MANTIDO SEU ESTILO (verde) */
 .price {
-  color: #2e7d32; /* Verde mantido */
+  color: #2e7d32;
   font-weight: bold;
   font-size: 1.1rem;
   white-space: nowrap;
   margin: 0;
 }
 
-/* Botão - ATUALIZADO PARA MATCH COM HOME */
 .buy-button {
   display: flex;
   justify-content: center;
   align-items: center;
   background: #3f51b5;
   color: white;
-  padding: 0.7rem 1.2rem; /* Padding mais equilibrado */
+  padding: 0.7rem 1.2rem;
   border-radius: 8px;
   border: none;
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: auto; /* Não ocupa 100% */
+  width: auto;
   flex-shrink: 0;
   text-decoration: none;
 }
@@ -110,7 +105,7 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-/* Responsividade - MANTIDO */
+/* Responsividade */
 @media (max-width: 768px) {
   .image-container {
     aspect-ratio: 4/3;

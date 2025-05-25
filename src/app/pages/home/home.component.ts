@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-// Importe TODOS os componentes usados no template
 import { HeroBannerComponent } from './components/hero-banner/hero-banner.component';
 import { ProductsSectionComponent } from './components/products-section/products-section.component';
 import { TestimonialsSectionComponent } from './components/testimonials-section/testimonials-section.component';
