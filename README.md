@@ -11,7 +11,6 @@ Uma plataforma moderna com autenticação de usuários, painel administrativo e 
 
 ### 🛒 Catálogo de Produtos
 - Listagem dinâmica com CRUD completo
-- Filtros e busca
 
 ### 📱 Interface Responsiva
 - Layout adaptável e design moderno
