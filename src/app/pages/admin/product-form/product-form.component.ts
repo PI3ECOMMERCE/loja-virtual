@@ -70,7 +70,8 @@ import { doc, getDoc } from 'firebase/firestore';
     .actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
     mat-error { font-size: 12px; }
   `]
-})
+});
+
 export class ProductFormComponent implements OnInit {
   productForm: FormGroup;
   isEditMode = false;
@@ -124,5 +125,5 @@ export class ProductFormComponent implements OnInit {
 
   onCancel() {
   this.router.navigate(['/admin/products']); // ↽-- Navegação absoluta garantida
-}
+  }
 }
