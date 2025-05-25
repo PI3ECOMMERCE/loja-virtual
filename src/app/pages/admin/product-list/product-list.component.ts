@@ -27,6 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
     MatDialogModule,
     MatSnackBarModule],
   template: `
+  
     <div class="container">
       <div class="header">
         <h2>Gerenciar Produtos</h2>
@@ -38,7 +39,7 @@ import { MatTableDataSource } from '@angular/material/table';
       <div class="table-container">
         <mat-spinner *ngIf="loading" diameter="50"></mat-spinner>
 
-        <!-- Adicionamos o async pipe aqui -->
+        <!-- Async pipe -->
       <table mat-table [dataSource]="dataSource" *ngIf="!loading">
           <!-- Coluna Nome -->
           <ng-container matColumnDef="name">
@@ -98,7 +99,8 @@ import { MatTableDataSource } from '@angular/material/table';
       font-size: 20px;
     }
   `]
-})
+});
+
 export class ProductListComponent {
   displayedColumns = ['name', 'price', 'actions'];
   dataSource = new MatTableDataSource<Product>([]);
