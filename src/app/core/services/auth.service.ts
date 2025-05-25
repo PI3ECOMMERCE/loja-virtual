@@ -14,30 +14,49 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  login(email: string, password: string) {
-    return this.http.post<{ 
-      success: boolean;
-      idToken?: string;
-      user?: { uid: string, email: string, displayName: string };
-      message?: string
-    }>(`${this.apiUrl}/login`, { email, password }).pipe(
-      tap({
-        next: (response) => {
-          if (response.success && response.idToken) {
-            localStorage.setItem('token', response.idToken);
-            this.authStatus.next(true);
-            this.router.navigate(['/admin']);
-          } else {
-            alert(response.message || 'Login falhou!');
+  // Método login único e atualizado
+login(email: string, password: string) {
+  return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
+    tap({
+      next: (response) => {
+        console.log('Resposta completa do login:', response);
+        if (response.success) {
+          const token = response.idToken || response.customToken;
+          if (!token) {
+            throw new Error('Token não recebido na resposta');
           }
-        },
-        error: (err) => {
-          console.error('Login error:', err);
-          alert(err.error?.message || 'Credenciais inválidas');
+          localStorage.setItem('token', token);
+          this.authStatus.next(true);
+        } else {
+          throw new Error(response.message || 'Login falhou');
         }
-      })
-    );
+      },
+      error: (err) => {
+        console.error('Erro completo na autenticação:', {
+          status: err.status,
+          message: err.message,
+          error: err.error,
+          url: err.url
+        });
+        // Transforma o erro em um formato mais amigável
+        throw this.parseAuthError(err);
+      }
+    })
+  );
+}
+
+private parseAuthError(err: any): any {
+  if (err.status === 401) {
+    if (err.error?.error === 'auth/wrong-password') {
+      return { ...err, message: 'Senha incorreta' };
+    } else if (err.error?.error === 'auth/user-not-found') {
+      return { ...err, message: 'Usuário não encontrado' };
+    } else {
+      return { ...err, message: 'Credenciais inválidas' };
+    }
   }
+  return err;
+}
 
   register(name: string, email: string, password: string) {
     return this.http.post<{ 

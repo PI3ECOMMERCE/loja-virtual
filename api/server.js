@@ -2,7 +2,8 @@ const express = require('express');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const app = express();
-const { getFirebaseAuthToken } = require('./firebase-auth'); // Importação correta
+const { getFirebaseAuthToken } = require('./firebase-auth');
+const { environment } = require('../env/environment');
 
 require('dotenv').config();
 
@@ -15,6 +16,10 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://vitrine-virtual-45979-default-rtdb.firebaseio.com"
 });
+
+// Obter a chave pública do Firebase do environment
+const firebaseApiKey = environment.firebase.apiKey;
+console.log('Firebase API Key:', firebaseApiKey); // Debug
 
 // Middlewares
 app.use(express.json());
@@ -30,7 +35,9 @@ function getFirebaseError(message) {
   const errors = {
     'auth/email-already-in-use': 'Email já está em uso',
     'auth/weak-password': 'Senha deve ter pelo menos 6 caracteres',
-    'auth/invalid-email': 'Email inválido'
+    'auth/invalid-email': 'Email inválido',
+    'auth/user-not-found': 'Usuário não encontrado',
+    'auth/wrong-password': 'Senha incorreta'
   };
   return errors[message] || 'Erro no registro';
 }
@@ -47,14 +54,57 @@ app.get('/api', (req, res) => {
   });
 });
 
+
+
+
+
+
+
+
+
+
+
+
 app.post('/api/login', async (req, res) => {
   try {
-    const user = await admin.auth().getUserByEmail(req.body.email);
-    const token = await getFirebaseAuthToken(
-      req.body.email, 
-      req.body.password,
-      serviceAccount.apiKey
-    );
+    console.log('Tentativa de login para:', req.body.email);
+    
+    if (!req.body.email || !req.body.password) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Email e senha são obrigatórios' 
+      });
+    }
+
+    // Primeiro verifica se o usuário existe
+    let user;
+    try {
+      user = await admin.auth().getUserByEmail(req.body.email);
+    } catch (error) {
+      console.error('Erro ao buscar usuário:', error);
+      return res.status(401).json({
+        success: false,
+        message: 'Usuário não encontrado',
+        error: 'auth/user-not-found'
+      });
+    }
+
+    // Depois tenta autenticar
+    let token;
+    try {
+      token = await getFirebaseAuthToken(
+        req.body.email, 
+        req.body.password,
+        firebaseApiKey
+      );
+    } catch (authError) {
+      console.error('Erro na autenticação:', authError);
+      return res.status(401).json({
+        success: false,
+        message: getFirebaseError(authError.code),
+        error: authError.code
+      });
+    }
     
     res.json({ 
       success: true, 
@@ -62,14 +112,14 @@ app.post('/api/login', async (req, res) => {
       user: {
         uid: user.uid,
         email: user.email,
-        displayName: user.displayName
+        displayName: user.displayName || ''
       }
     });
   } catch (error) {
-    console.error('Login error:', error);
-    res.status(401).json({ 
+    console.error('Erro geral no login:', error);
+    res.status(500).json({ 
       success: false, 
-      message: getFirebaseError(error.code),
+      message: 'Erro interno no servidor',
       error: error.message 
     });
   }
@@ -79,7 +129,6 @@ app.post('/api/register', async (req, res) => {
   const { email, password, name } = req.body;
 
   try {
-    // Validação
     if (!email || !password || !name) {
       return res.status(400).json({ 
         success: false,
@@ -87,7 +136,7 @@ app.post('/api/register', async (req, res) => {
       });
     }
 
-    // 1. Criar usuário
+    // 1. Criar usuário usando Admin SDK
     const user = await admin.auth().createUser({
       email,
       password,
@@ -101,13 +150,14 @@ app.post('/api/register', async (req, res) => {
       createdAt: Date.now()
     });
 
-    // 3. Tentar gerar token (se falhar, ainda retorna sucesso)
+    // 3. Tentar login automático com a chave pública
     try {
       const token = await getFirebaseAuthToken(
         email, 
         password,
-        serviceAccount.apiKey
+        firebaseApiKey // Usando a chave pública aqui
       );
+      
       return res.json({
         success: true,
         uid: user.uid,
@@ -124,7 +174,12 @@ app.post('/api/register', async (req, res) => {
     }
 
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error('Erro detalhado no registro:', {
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
+    
     res.status(400).json({
       success: false,
       message: getFirebaseError(error.code),
@@ -132,6 +187,11 @@ app.post('/api/register', async (req, res) => {
     });
   }
 });
+
+
+
+
+
 
 app.get('/api/protected', async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -149,7 +209,10 @@ app.get('/api/protected', async (req, res) => {
       user: decodedToken
     });
   } catch (error) {
-    res.status(403).json({ error: 'Token inválido' });
+    res.status(403).json({ 
+      error: 'Token inválido',
+      details: error.message
+    });
   }
 });
 

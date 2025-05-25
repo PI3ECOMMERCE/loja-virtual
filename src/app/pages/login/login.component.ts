@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { AuthService } from '../../core/services/auth.service';
-import { finalize } from 'rxjs'; // Importe o finalize
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -24,11 +24,10 @@ import { finalize } from 'rxjs'; // Importe o finalize
     MatIconModule,
     MatCheckboxModule,
     MatProgressSpinnerModule
-    ],
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent {
   loginForm: FormGroup;
   showPassword = false;
@@ -46,27 +45,63 @@ export class LoginComponent {
     });
   }
 
-onSubmit(): void {
-  if (this.loginForm.invalid) return;
+  onSubmit(): void {
+    if (this.loginForm.invalid) {
+      this.markFormGroupTouched(this.loginForm);
+      return;
+    }
 
-  this.isLoading = true;
-  this.errorMessage = '';
+    this.isLoading = true;
+    this.errorMessage = '';
 
-  const { email, password } = this.loginForm.value;
-  
-  this.authService.login(email, password)
-    .pipe(
-      finalize(() => this.isLoading = false)
-    )
+    const { email, password } = this.loginForm.value;
+    
+    console.log('Tentando login com:', { email }); // Debug (não logue a senha)
+    
+    this.authService.login(email, password)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
       .subscribe({
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Erro ao conectar com o servidor';
-        console.error('Login error:', err);
-      }
-    });
-}
+        next: (response: any) => {
+          console.log('Login bem-sucedido:', response);
+          this.router.navigate(['/admin']);
+        },
+        error: (err) => {
+          console.error('Erro completo:', {
+            status: err.status,
+            message: err.message,
+            error: err.error
+          });
+          
+          if (err.status === 401) {
+            if (err.error?.error === 'auth/wrong-password') {
+              this.errorMessage = 'Senha incorreta';
+            } else if (err.error?.error === 'auth/user-not-found') {
+              this.errorMessage = 'Usuário não encontrado';
+            } else {
+              this.errorMessage = 'Credenciais inválidas';
+            }
+          } else if (err.status === 0) {
+            this.errorMessage = 'Servidor não respondendo. Tente novamente.';
+          } else {
+            this.errorMessage = err.error?.message || 'Erro durante o login';
+          }
+        }
+      });
+  }
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
   }
-}
+
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+} 

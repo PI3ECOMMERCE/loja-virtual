@@ -75,7 +75,7 @@ import { finalize } from 'rxjs';
           <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
             Confirmação é obrigatória
           </mat-error>
-<mat-error *ngIf="registerForm.errors?.['notSame']">
+            <mat-error *ngIf="registerForm.errors?.['notSame']">
                 As senhas não coincidem
           </mat-error>
         </mat-form-field>
@@ -103,31 +103,75 @@ styles: [`
   .login-container {
     display: flex;
     justify-content: center;
-    padding: 2rem;
+    align-items: center;
+    min-height: 100vh;
+    padding: 16px;
+    background-color: #f5f5f5;
   }
-  
+
   .login-card {
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
+    padding: 24px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
-  
+
+  mat-card-header {
+    justify-content: center;
+    padding: 16px 0 24px 0;
+  }
+
+  mat-card-title {
+    font-size: 24px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+
   .error-message {
-    color: #f44336;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin: 1rem 0;
+    color: #f44336;
+    margin: 16px 0;
+    font-size: 14px;
   }
-  
+
   .login-button {
     width: 100%;
-    margin-top: 1rem;
+    height: 48px;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 500;
   }
-  
+
   .register-action {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 8px;
+    margin-top: 24px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+
+  .register-action a {
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  /* Estilo para ícone de visibilidade de senha */
+  button[mat-icon-button] {
+    margin-right: -8px;
   }
 `]
 })

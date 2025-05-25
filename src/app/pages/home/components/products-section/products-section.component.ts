@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
       <img 
         [src]="produto.imagem" 
         [alt]="produto.nome" 
-        (error)="produto.imagem = 'assets/placeholder.jpg'"
+        (error)="produto.imagem = 'assets/images/produto.jpg'"
         class="product-image"
       >
       <div class="product-info">
@@ -54,15 +54,27 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
     .products-section {
       padding: 2rem;
       background: #f9f9f9;
+      text-align: center;
     }
 
     .products-section h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
       font-size: 2rem;
-      color: #333;
+      color: #2c3e50;
+      margin: 1.7rem;
+      position: relative;
+      display: inline-block;
     }
 
+        .products-section h2::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 60px;
+      height: 3px;
+      background: #3f51b5;
+    }
 
     .products-grid {
       display: grid;
@@ -241,15 +253,27 @@ import { RouterModule } from '@angular/router'; // Adicione esta linha
 export class ProductsSectionComponent {
   produtos = [
     {
-      nome: "Produto Exemplo 1",
-      preco: 89.90,
-      imagem: "https://placehold.co/600x400",
+      nome: "Aparelho de Jantar",
+      preco: 599.90,
+      imagem: "assets/images/aparelho-jantar.jpg",
       linkExterno: "https://mercadolivre.com/"
     },
     {
-      nome: "Produto Exemplo 2",
-      preco: 129.90,
-      imagem: "https://placehold.co/600x400",
+      nome: "Kit de Potes Herméticos",
+      preco: 159.90,
+      imagem: "assets/images/kit5-pote-hermetico.jpg",
+      linkExterno: "https://mercadolivre.com/"
+    },
+    {
+      nome: "Aparelho de Jantar",
+      preco: 599.90,
+      imagem: "assets/images/aparelho-jantar.jpg",
+      linkExterno: "https://mercadolivre.com/"
+    },
+    {
+      nome: "Kit de Potes Herméticos",
+      preco: 159.90,
+      imagem: "assets/images/kit5-pote-hermetico.jpg",
       linkExterno: "https://mercadolivre.com/"
     }
   ];

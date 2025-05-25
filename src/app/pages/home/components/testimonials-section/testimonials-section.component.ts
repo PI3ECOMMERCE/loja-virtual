@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <section class="testimonials-section">
-      <!-- Seção de Valores -->
+<section class="testimonials-section">
+      <!-- Seção de Valores - Estilo Atualizado -->
       <div class="values-section">
-        <h2>Nossos Valores</h2>
+        <h2 class="section-title">Nossos Valores</h2>
         <div class="values-grid">
           <div class="value-item" *ngFor="let valor of valores">
             <div class="value-icon">
@@ -45,63 +46,76 @@ import { CommonModule } from '@angular/common';
   `,
   styles: [`
     .values-section {
+      padding: 4rem 2rem;
+      background: #f9f9f9;
+      border-top: 1px solid rgba(0,0,0,0.05);
       text-align: center;
-      margin-bottom: 3rem;
     }
-    
+
+    .section-title {
+      font-size: 2.2rem;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 60px;
+      height: 3px;
+      background: #3f51b5;
+    }
+
     .values-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 2rem auto 0;
     }
-    
+
     .value-item {
-      padding: 1.5rem;
+      background: white;
+      padding: 2rem 1.5rem;
       border-radius: 8px;
-      background: #f9f9f9;
-      transition: transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
     }
-  
-    
+
+    .value-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
     .value-icon i {
       font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #3f51b5; /* Cor personalizável */
+      color: #3f51b5;
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
     }
 
-  .values-section {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
+    .value-item:hover .value-icon i {
+      transform: scale(1.1);
+    }
 
-  .values-section h2 {
-    font-size: 1.8rem;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
+    .value-item h3 {
+      color: #2c3e50;
+      margin-bottom: 0.8rem;
+      font-size: 1.3rem;
+    }
 
-  .values-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-
-  .value-item {
-    padding: 1.5rem;
-    border-radius: 8px;
-    background: #fff;
-    transition: transform 0.3s ease;
-    box-shadow: 0 2px 8px#e0e0e0;
-  }
-
-  .value-icon i {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #3f51b5;
-  }
+    .value-item p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
 
 .testimonial-carousel {
   text-align: center;

@@ -1,11 +1,22 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
+  // Rota principal
   { 
     path: 'home', 
-    loadComponent: () => import('./pages/home/home.component').then(m => m.HomeComponent) 
+    component: HomeComponent,
+    pathMatch: 'full'
   },
+  
+  // Redireciona a raiz para /home
+  { 
+    path: '', 
+    redirectTo: 'home',
+    pathMatch: 'full' 
+  },
+  
   { 
     path: 'produtos', 
     loadComponent: () => import('./pages/products/products.component').then(m => m.ProductsComponent) 
@@ -34,10 +45,11 @@ export const routes: Routes = [
       { path: '', redirectTo: 'products', pathMatch: 'full' }
     ]
   },
-
   { 
-  path: 'registro', 
-  loadComponent: () => import('./pages/registro/registro.component').then(m => m.RegisterComponent) 
-},
-  { path: '**', redirectTo: '' }
+    path: 'registro', 
+    loadComponent: () => import('./pages/registro/registro.component').then(m => m.RegisterComponent) 
+  },
+  
+  // Redireciona rotas desconhecidas para /home
+  { path: '**', redirectTo: 'home' }
 ];

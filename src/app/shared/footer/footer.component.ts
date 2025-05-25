@@ -54,7 +54,7 @@ import { CommonModule } from '@angular/common';
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; {{ currentYear }} Vitrine Virtual. Todos os direitos reservados.</p>
+        <p>&copy; {{ currentYear }} Divina Casa. Todos os direitos reservados.</p>
       </div>
     </footer>
   `,

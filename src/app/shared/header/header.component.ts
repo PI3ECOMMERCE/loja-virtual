@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../core/services/auth.service';
 
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -15,7 +16,9 @@ import { AuthService } from '../../core/services/auth.service';
   ],
   template: `
     <nav class="navbar">
-      <a [routerLink]="['/']" class="logo">Vitrine</a>
+<a [routerLink]="['/home']" class="logo" aria-label="Página inicial">
+  <img src="assets/images/logo.png" alt="Logo Loja Divina Casa" />
+</a>
       <div class="nav-links">
         <!-- Links sempre visíveis -->
         <a [routerLink]="['/']" 
@@ -61,68 +64,146 @@ import { AuthService } from '../../core/services/auth.service';
     </nav>
   `,
   styles: [`
-    nav {
-      background: white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+  /* NAVBAR COMPACTA E OTIMIZADA */
+  nav, .navbar {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 0.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    position: relative;
+    z-index: 1000;
+  }
+
+  /* ESTILOS DE LINKS */
+  a, .nav-link {
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    position: relative; /* Adicionado para o pseudo-elemento */
+  }
+
+  a:hover, .nav-link:hover {
+    color: #000;
+    transform: translateY(-2px);
+  }
+
+  /* LOGO */
+  .logo {
+    font-weight: bold;
+    font-size: 1rem;
+    color: #3f51b5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+  }
+
+  .logo img {
+    height: 50px;
+    width: auto;
+    max-height: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .logo:hover img {
+    transform: scale(1.05);
+  }
+
+  /* CONTAINER DE LINKS */
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  /* LINKS ATIVOS - ESTILO ATUALIZADO */
+  .nav-link.active-link {
+    color: #3f51b5;
+    font-weight: 500;
+  }
+
+  .nav-link.active-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #3f51b5;
+    border-radius: 2px;
+    transform: scaleX(0.2);
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .nav-link.active-link:hover::after {
+    transform: scaleX(1);
+  }
+
+  .active-link mat-icon {
+    color: inherit;
+  }
+
+  /* ESTILOS ESPECÍFICOS PARA ADMIN */
+  .admin {
+    color: #673ab7;
+    background: rgba(103, 58, 183, 0.1);
+    border-radius: 20px;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .admin:hover {
+    color: #5e35b1 !important;
+    background: rgba(103, 58, 183, 0.15);
+  }
+
+  /* ESTILOS ESPECÍFICOS PARA LOGOUT */
+  .logout {
+    color: #ff3d00;
+    background: rgba(255, 61, 0, 0.1);
+    border-radius: 20px;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .logout:hover {
+    color: #c62828 !important;
+    cursor: pointer;
+    background: rgba(255, 61, 0, 0.15);
+  }
+
+  /* RESPONSIVIDADE */
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 0.5rem 1rem;
+      height: 60px;
     }
+    
+    .logo img {
+      height: 40px;
+    }
+    
     .nav-links {
-      display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
     }
-    a {
-      color: #333;
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
+    
+    .nav-link span {
+      display: none;
     }
-    a:hover {
-      color: #3f51b5;
+    
+    .nav-link mat-icon {
+      margin-right: 0;
+      font-size: 1.5rem;
     }
-    .logo {
-      font-weight: bold;
-      color: #3f51b5;
-      font-size: 1.2rem;
-    }
-    .admin {
-      color: #673ab7;
-    }
-    .admin:hover {
-      color: #5e35b1 !important;
-    }
-    .logout {
-      color: #ff3d00;
-    }
-    .logout:hover {
-      color: #c62828 !important;
-      cursor: pointer;
-    }
-    .active-link {
-      color: #3f51b5;
-      position: relative;
-    }
-    .active-link::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 20px;
-      height: 2px;
-      background: #3f51b5;
-      border-radius: 2px;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-    .active-link:hover::after {
-      width: 100%;
-    }
-  `]
+  }
+`]
 })
 export class HeaderComponent {
   constructor(public authService: AuthService) {}

@@ -9,9 +9,11 @@ import { CommonModule } from '@angular/common';
     <section class="about-section">
       <div class="about-container">
         <div class="about-content">
-          <h2 class="section-title">Nossa História</h2>
-          <p class="about-text">Somos uma equipe apaixonada por oferecer os melhores produtos e serviços para nossos clientes. 
-          Tudo começou em 2020 com um pequeno empreendimento e hoje estamos orgulhosos de atender toda a região.</p>
+          <h2 class="section-title">Sobre Nós</h2>
+          <p class="about-text">Nascemos da paixão por transformar casas em lares e refeições em memórias. 
+            Na Divina Casa, cada peça é escolhida como quem prepara a mesa para os melhores momentos. 
+            Somos mais que uma loja - somos seus parceiros na arte de viver bem, 
+            do café da manhã aos jantares inesquecíveis.</p>
           
           <div class="highlights-grid">
             <div class="highlight-item" *ngFor="let item of destaques">
@@ -112,6 +114,7 @@ import { CommonModule } from '@angular/common';
     .cta-button {
       background: #3f51b5;
       color: white;
+      font-weight: bold;
       border: none;
       padding: 0.8rem 2rem;
       border-radius: 50px;
