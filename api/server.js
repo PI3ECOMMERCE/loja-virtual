@@ -18,7 +18,6 @@ admin.initializeApp({
 
 // Obter a chave pública do Firebase do environment
 const firebaseApiKey = process.env.FIREBASE_API_KEY;
-console.log('Firebase API Key:', firebaseApiKey); // Debug
 
 // Middlewares
 app.use(express.json());
@@ -52,15 +51,6 @@ app.get('/api', (req, res) => {
     }
   });
 });
-
-
-
-
-
-
-
-
-
 
 
 
